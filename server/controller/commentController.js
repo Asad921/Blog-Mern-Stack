@@ -1,0 +1,40 @@
+
+import Comment from "../model/comment.js"
+
+export const newComment = async (request ,response) =>{
+    try{
+      const comment =   await new Comment(request.body);
+      comment.save();
+
+      response.status(200).json({ msg: 'Comment Saved'});
+      
+    }catch(error){
+        response.status(500).json({ error: error.message});
+        
+      }
+      
+    }
+    export const getComment = async (request, response) => {
+      try {
+          const comments = await Comment.find({ postId: request.params.id });
+          
+          response.status(200).json(comments);
+        } catch (error) {
+          response.status(500).json({error: error.message})
+        }
+      }
+      
+      export const deleteComment = async (request, response) =>{
+        try{
+
+          const comment = await Comment.findById(request.params.id);
+          comment.delete();
+          response.status(200).json({msg: 'Comment Deleted'});
+
+
+        }catch(error){
+            
+          response.status(500).json({error: error.message})
+
+    }
+  }
